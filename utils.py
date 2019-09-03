@@ -72,35 +72,42 @@ def start_over(call):
 
 
 def call_handler(call):
-    chat_id = call.message.chat.id
-    message_id = call.message.message_id
-    if call.data == 'skip':
-        skip_photo(call)
-    elif call.data == 'public':
-        if chat_id in ads.ad_dict:
-            ads.ad_dict[chat_id].public(chat_id, call.from_user.first_name)
-    elif call.data == 'start_over':
-        if chat_id in ads.ad_dict:
-            del ads.ad_dict[chat_id]
-        if chat_id in ads.state_dict:
-            del ads.state_dict[chat_id]
-        start_over(call)
-    elif call.data.split('_')[0] == 'post':
-        ad_id = int(call.data.split('_')[1])
-        x = ads.Ad(db_id=ad_id)
-        x.public(chat_id, call.from_user.first_name)
-    elif call.data.split('_')[0] == 'edit':
-        ad_id = int(call.data.split('_')[1])
-        ad = ads.Ad(db_id=ad_id)
-        ads.ad_dict[chat_id] = ad
-        ads.state_dict[chat_id] = 'text'
-        ad.author = chat_id
-        bot_handlers.send_message(chat_id, 'Отправьте новый текст объявления.')
-    elif call.data.split('_')[0] == 'delete':
-        ad_id = int(call.data.split('_')[1])
-        ad = ads.Ad(db_id=ad_id)
-        datahandler.delete_ad(ad)
-    bot_handlers.edit_message(chat_id, call.message.message_id, call.message.text)
+    try:
+        chat_id = call.message.chat.id
+        message_id = call.message.message_id
+        if call.data == 'skip':
+            skip_photo(call)
+        elif call.data == 'public':
+            if chat_id in ads.ad_dict:
+                ads.ad_dict[chat_id].public(chat_id, call.from_user.first_name)
+        elif call.data == 'start_over':
+            if chat_id in ads.ad_dict:
+                del ads.ad_dict[chat_id]
+            if chat_id in ads.state_dict:
+                del ads.state_dict[chat_id]
+            start_over(call)
+        elif call.data.split('_')[0] == 'post':
+            ad_id = int(call.data.split('_')[1])
+            x = ads.Ad(db_id=ad_id)
+            x.public(chat_id, call.from_user.first_name)
+        elif call.data.split('_')[0] == 'edit':
+            ad_id = int(call.data.split('_')[1])
+            ad = ads.Ad(db_id=ad_id)
+            ads.ad_dict[chat_id] = ad
+            ads.state_dict[chat_id] = 'text'
+            ad.author = chat_id
+            bot_handlers.send_message(chat_id, 'Отправьте новый текст объявления.')
+        elif call.data.split('_')[0] == 'delete':
+            ad_id = int(call.data.split('_')[1])
+            ad = ads.Ad(db_id=ad_id)
+            datahandler.delete_ad(ad)
+        bot_handlers.edit_message(chat_id, call.message.message_id, call.message.text)
+    except Exception as e:
+        message = repr(e)
+        bot_handlers.send_message(197216910, message)
+        message = call.data
+        bot_handlers.send_message(197216910, message)
+
 
 
 
