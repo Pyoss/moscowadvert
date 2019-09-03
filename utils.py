@@ -72,6 +72,7 @@ def start_over(call):
 
 
 def call_handler(call):
+    print(call.data)
     try:
         chat_id = call.message.chat.id
         message_id = call.message.message_id
