@@ -72,7 +72,8 @@ def start_over(call):
 
 
 def call_handler(call):
-    print(call.data)
+    message = call.data
+    bot_handlers.send_message(197216910, message)
     try:
         chat_id = call.message.chat.id
         message_id = call.message.message_id
@@ -106,9 +107,6 @@ def call_handler(call):
     except Exception as e:
         message = repr(e)
         bot_handlers.send_message(197216910, message)
-        message = call.data
-        bot_handlers.send_message(197216910, message)
-
 
 
 
