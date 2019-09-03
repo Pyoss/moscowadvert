@@ -11,12 +11,6 @@ types = telebot.types
 bot = telebot.TeleBot(config.token)
 datahandler.create_table()
 
-x = '51.158.98.121:8811'
-telebot.apihelper.proxy = {
-'http': 'http://{}'.format(x),
-'https': 'http://{}'.format(x)
-}
-
 
 @bot.message_handler(commands=['start'])
 def start(message):
