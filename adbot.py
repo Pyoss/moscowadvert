@@ -23,7 +23,9 @@ def start(message):
 def msg(message):
     chat_id = message.from_user.id
     if chat_id in ads.state_dict:
-        if ads.state_dict[chat_id] == 'text':
+        if ads.state_dict[chat_id] == 'contact':
+            utils.add_contacts(message)
+        elif ads.state_dict[chat_id] == 'text':
             utils.add_text(message)
         elif ads.state_dict[chat_id] == 'question':
             text = message.text + '\n@' + message.from_user.username

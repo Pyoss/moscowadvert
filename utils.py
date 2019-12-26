@@ -7,17 +7,27 @@ import config
 
 def new_ad(chat_id, message_id):
     text = 'Итак, начнем!\n'\
-            'Создайте своё объявление, после чего отправьте его боту. ' \
-            'Опишите выгоды и условия Вашего предложения.\n' \
-            'Обязательно укажите своё имя и контакт для связи, номер телефона или телеграмм-логин.\n'
-    ads.state_dict[chat_id] = 'text'
+           'Сначала укажите свои контактные данные для связи (телеграмм-логин или номер телефона/Whatsapp)' \
+           ' и отправьте их боту.'
+    ads.state_dict[chat_id] = 'contact'
     ads.Ad(chat_id=chat_id, message_id=message_id)
     bot_handlers.send_message(chat_id, text)
 
 
+def add_contacts(message):
+    chat_id = message.from_user.id
+    ads.ad_dict[chat_id].contacts = message.text
+    ads.state_dict[chat_id] = 'text'
+    text = 'Отлично!\n'\
+           'Теперь создайте текст объявления, опишите выгоды и условия Вашего предложения.'
+    ads.ad_dict[chat_id].skip_message = bot_handlers.send_message(
+        message.from_user.id, text)
+
+
 def add_text(message):
     chat_id = message.from_user.id
-    ads.ad_dict[chat_id].edit_text(message)
+    ads.ad_dict[chat_id].edit_text(message.text)
+    ads.ad_dict[chat_id].add_contacts()
     ads.state_dict[chat_id] = 'photo'
     text = 'Хорошо!\n'\
            'Теперь отправьте боту одно или несколько фото(альбом) для объявления.' \
@@ -105,6 +115,16 @@ def call_handler(call):
             datahandler.delete_ad(ad)
         bot_handlers.edit_message(chat_id, call.message.message_id, call.message.text)
     except Exception as e:
+        if str(e) == """A request to the Telegram API was unsuccessful. The server returned HTTP 400 Bad Request. Response body:
+[b'{"ok":false,"error_code":400,"description":"Bad Request: too much messages to send as an album"}']""":
+            bot_handlers.bot.answer_callback_query(call.id, 'Изображений слишком много. Пожалуйста, оформите '
+                                                            'объявление с меньшим количеством изображений.', show_alert=True)
+        chat_id = call.message.chat.id
+        if chat_id in ads.ad_dict:
+            del ads.ad_dict[chat_id]
+        if chat_id in ads.state_dict:
+            del ads.state_dict[chat_id]
+        start_over(call)
         message = repr(e)
         bot_handlers.send_message(197216910, message)
 

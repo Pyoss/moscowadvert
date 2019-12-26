@@ -26,11 +26,16 @@ class Ad:
             self.text = ''
             ad_dict[self.author] = self
 
+        self.contacts = None
+
     def edit_text(self, message):
-        self.text = message.text
+        self.text = message
 
     def edit_album(self, photo):
         self.album.append(photo)
+
+    def add_contacts(self):
+        self.text = self.text + "\n\n" + self.contacts
 
     def post(self):
         text = self.text
