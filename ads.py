@@ -49,8 +49,8 @@ class Ad:
         if chat_id in state_dict:
             del state_dict[chat_id]
         if chat_id == config.admin_id:
+            self.post()
             datahandler.delete_ad(self)
-            return self.post()
         datahandler.save_ad(self)
         text = self.text
         photo = {types.InputMediaPhoto(file) for file in self.album}
