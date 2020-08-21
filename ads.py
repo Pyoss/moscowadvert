@@ -51,10 +51,11 @@ class Ad:
         if chat_id == config.admin_id:
             self.post()
             datahandler.delete_ad(self)
-        datahandler.save_ad(self)
-        text = self.text
-        photo = {types.InputMediaPhoto(file) for file in self.album}
-        if photo:
-            bot_handlers.send_media_group(config.admin_id, photo)
-        message = bot_handlers.send_message(config.admin_id, text, reply_markup=buttons.admin_keyboard(self))
-        bot_handlers.send_message(chat_id, '{}, объявление отправлено на модерацию и скоро будет опубликовано!'.format(name))
+        else:
+            datahandler.save_ad(self)
+            text = self.text
+            photo = {types.InputMediaPhoto(file) for file in self.album}
+            if photo:
+                bot_handlers.send_media_group(config.admin_id, photo)
+            message = bot_handlers.send_message(config.admin_id, text, reply_markup=buttons.admin_keyboard(self))
+            bot_handlers.send_message(chat_id, '{}, объявление отправлено на модерацию и скоро будет опубликовано!'.format(name))
