@@ -19,3 +19,7 @@ def edit_message(chat_id, message_id, text, reply_markup=None):
 
 def send_media_group(chat_id, media_group):
     bot.send_media_group(chat_id, media=media_group)
+
+    
+def delete_message(chat_id, message_id):
+    bot.send_media_group(chat_id, message_id)
