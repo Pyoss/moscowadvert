@@ -22,4 +22,4 @@ def send_media_group(chat_id, media_group):
 
     
 def delete_message(chat_id, message_id):
-    bot.send_media_group(chat_id, message_id)
+    bot.delete_message(chat_id, message_id)
