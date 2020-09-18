@@ -117,7 +117,6 @@ def call_handler(call):
                 datahandler.delete_ad(ad)
             except:
                 pass
-        bot_handlers.edit_message(chat_id, call.message.message_id, call.message.text)
     except Exception as e:
         if str(e) == """A request to the Telegram API was unsuccessful. The server returned HTTP 400 Bad Request. Response body:
 [b'{"ok":false,"error_code":400,"description":"Bad Request: too much messages to send as an album"}']""":
