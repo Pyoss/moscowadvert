@@ -112,6 +112,7 @@ def call_handler(call):
         elif call.data.split('_')[0] == 'delete':
             ad_id = int(call.data.split('_')[1])
             ad = ads.Ad(db_id=ad_id)
+            bot_handlers.delete_message(chat_id, message_id)
             try:
                 datahandler.delete_ad(ad)
             except:
