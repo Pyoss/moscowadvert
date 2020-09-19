@@ -103,8 +103,8 @@ def call_handler(call):
             start_over(call)
         elif call.data.split('_')[0] == 'post':
             ad_id = int(call.data.split('_')[1])
-            x = ads.Ad(db_id=ad_id)
-            x.public(chat_id, call.from_user.first_name)
+            ad = ads.Ad(db_id=ad_id)
+            ad.public(chat_id, call.from_user.first_name)
             bot_handlers.delete_message(chat_id, message_id)
             for i in range(0, len(ad.album)):
                 bot_handlers.delete_message(chat_id, message_id-(i+1))
