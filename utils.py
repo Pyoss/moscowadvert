@@ -106,7 +106,7 @@ def call_handler(call):
             x = ads.Ad(db_id=ad_id)
             x.public(chat_id, call.from_user.first_name)
             bot_handlers.delete_message(chat_id, message_id)
-            for i in range(0, len(ad.album):
+            for i in range(0, len(ad.album)):
                 bot_handlers.delete_message(chat_id, message_id-(i+1))
         elif call.data.split('_')[0] == 'edit':
             ad_id = int(call.data.split('_')[1])
@@ -122,7 +122,7 @@ def call_handler(call):
             ad = ads.Ad(db_id=ad_id)
             try:
                 datahandler.delete_ad(ad)
-                for i in range(0, len(ad.album):
+                for i in range(0, len(ad.album)):
                     bot_handlers.delete_message(chat_id, message_id-(i+1))
             except:
                 pass
