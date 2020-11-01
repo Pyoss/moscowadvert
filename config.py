@@ -1,5 +1,5 @@
 import os
 
-token = "525596163:AAFhvQTlFRWL5yHF12_33_aQwANt9lAMN0g"
-admin_id = 496574763
-channel_id = '@arendamsk_mo'
+token = "591794542:AAFZZFxYtTr2_4g86W4fw3b1zQKtXrBDIxo"
+admin_id = 197216910
+channel_id = '@test_kiriya'

@@ -42,8 +42,14 @@ class Ad:
         for file in self.album:
             media_array.append(types.InputMediaPhoto(file))
         if media_array:
-            media_array[0].caption = self.text
-            bot_handlers.send_media_group(config.channel_id, media_array)
+            if len(self.text) < 999:
+                media_array[0].caption = self.text
+                bot_handlers.send_media_group(config.channel_id, media_array)
+            else:
+                bot_handlers.send_media_group(config.channel_id, media_array)
+                bot_handlers.send_message(config.channel_id, self.text)
+        else:
+            bot_handlers.send_message(config.channel_id, self.text)
         bot_handlers.send_message(config.admin_id, 'Объявление опубликовано!')
 
     def public(self, chat_id, name):
