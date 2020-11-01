@@ -38,11 +38,12 @@ class Ad:
         self.text = self.text + "\n\n" + self.contacts
 
     def post(self):
-        text = self.text
-        photo = {types.InputMediaPhoto(file) for file in self.album}
-        if photo:
-            bot_handlers.send_media_group(config.channel_id, photo)
-        bot_handlers.send_message(config.channel_id, text)
+        media_array = []
+        for file in self.album:
+            media_array.append(types.InputMediaPhoto(file))
+        if media_array:
+            media_array[0].caption = self.text
+            bot_handlers.send_media_group(config.channel_id, media_array)
         bot_handlers.send_message(config.admin_id, 'Объявление опубликовано!')
 
     def public(self, chat_id, name):
