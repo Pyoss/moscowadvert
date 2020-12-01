@@ -19,7 +19,8 @@ def add_contacts(message):
     ads.ad_dict[chat_id].contacts = message.text
     ads.state_dict[chat_id] = 'text'
     text = 'Отлично!\n'\
-           'Теперь создайте текст объявления, опишите выгоды и условия Вашего предложения.'
+           'Теперь создайте текст объявления, опишите выгоды и условия Вашего предложения.\n'
+            'Если Вы являетесь АН или агентом, обязательно укажите размер Вашей комиссии.'
     ads.ad_dict[chat_id].skip_message = bot_handlers.send_message(
         message.from_user.id, text)
 
